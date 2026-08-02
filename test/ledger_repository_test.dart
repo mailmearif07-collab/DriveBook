@@ -1,13 +1,38 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:drivebook/models/ledger_entry.dart';
 import 'package:drivebook/repositories/sqlite_ledger_repository.dart';
 import 'package:drivebook/services/database_service.dart';
 
+/// Test-only fake for `path_provider`. `DatabaseService` calls
+/// `getApplicationDocumentsDirectory()` on non-web platforms; in a plain
+/// `flutter test` run there is no real platform plugin registered to
+/// answer that method channel, so we swap in a fake that hands back a
+/// fresh temp directory for each database open.
+class _FakePathProviderPlatform extends PathProviderPlatform
+    with MockPlatformInterfaceMixin {
+  @override
+  Future<String?> getApplicationDocumentsPath() async {
+    final dir = await Directory.systemTemp.createTemp('drivebook_test_');
+    return dir.path;
+  }
+}
+
 void main() {
+  // Must run before any repository/database initialization below —
+  // DatabaseService opens a real (FFI-backed) sqflite database and touches
+  // platform channels (via path_provider), both of which require the test
+  // binding to be initialized first.
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
+    PathProviderPlatform.instance = _FakePathProviderPlatform();
   });
 
   tearDown(() async {
