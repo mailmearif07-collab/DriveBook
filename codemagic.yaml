@@ -2,27 +2,39 @@ workflows:
   drivebook-android:
     name: DriveBook - Android
     max_build_duration: 60
+
     environment:
       flutter: stable
       java: 17
+
     scripts:
       - name: Get packages
         script: flutter pub get
+
       - name: Analyze
         script: flutter analyze
+
       - name: Run tests
         script: flutter test
+
+      - name: Regenerate Gradle Wrapper
+        script: |
+          cd android
+          gradle wrapper --gradle-version 8.4
+          cd ..
+
       - name: Build release APK
         script: |
-          # applicationId stays com.drivebook.app across every release, so
-          # this build is always an update over a user's existing install —
-          # their local SQLite ledger is never touched or replaced by CI.
           flutter build apk --release
+
       - name: Build app bundle (Play Store)
-        script: flutter build appbundle --release
+        script: |
+          flutter build appbundle --release
+
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
       - build/app/outputs/bundle/release/app-release.aab
+
     publishing:
       email:
         recipients:
@@ -31,30 +43,42 @@ workflows:
   drivebook-ios:
     name: DriveBook - iOS
     max_build_duration: 60
+
     environment:
       flutter: stable
       xcode: latest
       cocoapods: default
+
     scripts:
       - name: Get packages
         script: flutter pub get
+
       - name: Install pods
         script: |
-          cd ios && pod install
-      - name: Build (no codesign — configure signing in Codemagic UI to publish)
-        script: flutter build ios --release --no-codesign
+          cd ios
+          pod install
+
+      - name: Build (no codesign)
+        script: |
+          flutter build ios --release --no-codesign
+
     artifacts:
       - build/ios/iphoneos/*.app
 
   drivebook-web:
     name: DriveBook - Web
     max_build_duration: 30
+
     environment:
       flutter: stable
+
     scripts:
       - name: Get packages
         script: flutter pub get
+
       - name: Build web
-        script: flutter build web --release
+        script: |
+          flutter build web --release
+
     artifacts:
       - build/web
