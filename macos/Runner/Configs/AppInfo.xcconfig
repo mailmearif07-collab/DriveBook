@@ -1,0 +1,3 @@
+PRODUCT_NAME = DriveBook
+PRODUCT_BUNDLE_IDENTIFIER = com.drivebook.app
+PRODUCT_COPYRIGHT = Copyright © 2026 DriveBook. All rights reserved.

@@ -1,0 +1,6 @@
+# Copy this file to local.properties (which is gitignored) and set the
+# absolute paths for your machine, OR let `flutter build` / `flutter run`
+# generate local.properties automatically — it does this on every build.
+#
+# flutter.sdk=/path/to/flutter
+# sdk.dir=/path/to/Android/sdk

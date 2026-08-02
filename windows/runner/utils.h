@@ -1,0 +1,19 @@
+#ifndef RUNNER_UTILS_H_
+#define RUNNER_UTILS_H_
+
+#include <windows.h>
+
+#include <string>
+#include <vector>
+
+void CreateAndAttachConsole();
+
+std::vector<std::string> GetCommandLineArguments();
+
+std::string Utf8FromUtf16(const wchar_t* utf16_string);
+
+int Scale(int source, double scale_factor);
+
+void EnableFullDpiSupportIfAvailable(HWND hwnd);
+
+#endif  // RUNNER_UTILS_H_
