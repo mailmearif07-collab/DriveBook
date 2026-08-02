@@ -6,6 +6,8 @@ import 'package:drivebook/main.dart';
 import 'package:drivebook/screens/splash_screen.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
