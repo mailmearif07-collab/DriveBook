@@ -34,7 +34,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                     ],
                   ),
                 ),
-                const Icon(Icons.cloud_upload_rounded, color: AppColors.primary, size: 36),
+                Icon(Icons.cloud_upload_rounded, color: AppColors.primary, size: 36),
               ],
             ),
           ),
