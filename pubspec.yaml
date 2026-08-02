@@ -14,11 +14,10 @@ dependencies:
   fl_chart: ^0.68.0
   google_fonts: ^6.2.1
 
-  # Local persistence (Phase 1) — every install keeps its own private
-  # SQLite database file; nothing here talks to a network.
+  # Local persistence (Phase 1)
   sqflite: ^2.3.3+1
-  sqflite_common_ffi: ^2.3.3       # Linux / Windows desktop
-  sqflite_common_ffi_web: ^0.4.4   # Web (WASM SQLite)
+  sqflite_common_ffi: ^2.3.3
+  sqflite_common_ffi_web: ^0.4.4
   path: ^1.9.0
   path_provider: ^2.1.3
 
@@ -26,8 +25,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  path_provider_platform_interface: any
+  plugin_platform_interface: any
 
 flutter:
   uses-material-design: true
+
   assets:
     - assets/images/
